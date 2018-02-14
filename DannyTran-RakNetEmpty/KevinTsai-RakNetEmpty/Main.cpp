@@ -12,6 +12,8 @@ static unsigned int MAX_CONNECTIONS = 4;
 bool isServer = false;
 bool isRunning = true;
 
+char* name;
+
 RakNet::RakPeerInterface *g_rakPeerInterface = nullptr;
 unsigned char GetPacketIdentifier(RakNet::Packet *p);
 
@@ -19,7 +21,8 @@ unsigned char GetPacketIdentifier(RakNet::Packet *p);
 enum NetworkState {
 	NS_Init,
 	NS_PendingStart,
-	NS_Started
+	NS_Started,
+	NS_Chat
 };
 
 NetworkState g_networkState = NS_Init;
@@ -36,6 +39,27 @@ void InputHandler() {
 		}
 
 		std::this_thread::sleep_for(std::chrono::microseconds(100));
+	}
+}
+
+void SendChat() {
+	while (isRunning) {
+		char userInput[2048];
+		std::cout << "Enter message: " << std::endl;
+		std::cin >> userInput;
+
+		// message is the data to send
+		// strlen(message)+1 is to send the null terminator
+		// HIGH_PRIORITY doesn't actually matter here because we don't use any other priority
+		// RELIABLE_ORDERED means make sure the message arrives in the right order
+		char message2[2048];
+		// Append Server: to the message so clients know that it ORIGINATED from the server
+		// All messages to all clients come from the server either directly or by being
+		// relayed from other clients
+		message2[0] = 0;
+		strncpy_s(message2, name, sizeof(message2));
+		strncat_s(message2, userInput, sizeof(message2) - strlen(name) - 1);
+		g_rakPeerInterface->Send(message2, (int)strlen(message2) + 1, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
 }
 
@@ -101,8 +125,9 @@ void PacketHandler() {
 				printf("Ping from %s\n", packet->systemAddress.ToString(true));
 				break;
 			default:
-				// It's a client, so just show the message
-				printf("%s\n", packet->data);
+				if(!isServer)
+					printf("%s\n", packet->data);
+				
 				break;
 			}
 		}
@@ -140,6 +165,7 @@ int main()
 	while (isRunning) {
 		if (g_networkState == NS_PendingStart) {
 
+			char userInput[255];
 			if (isServer)
 			{
 				RakNet::SocketDescriptor socketDescriptors[1];
@@ -148,10 +174,15 @@ int main()
 
 				bool isSuccess = g_rakPeerInterface->Startup(MAX_CONNECTIONS, socketDescriptors, 1) == RakNet::RAKNET_STARTED;
 				assert(isSuccess);
+
+				std::cout << "Please input name" << std::endl;
+				std::cin >> userInput;
+				name = userInput;
+
 				g_rakPeerInterface->SetMaximumIncomingConnections(MAX_CONNECTIONS);
 
 				std::cout << "server started" << std::endl;
-				g_networkState = NS_Started;
+				g_networkState = NS_Chat;
 			}
 			else
 			{
@@ -159,14 +190,24 @@ int main()
 				socketDescriptor.socketFamily = AF_INET;
 				bool isSuccess = g_rakPeerInterface->Startup(8, &socketDescriptor, 1) == RakNet::RAKNET_STARTED;
 				assert(isSuccess);
+
+				std::cout << "Please input name" << std::endl;
+				std::cin >> userInput;
+				name = userInput;
+
 				g_rakPeerInterface->SetOccasionalPing(true);
 
 				RakNet::ConnectionAttemptResult result = g_rakPeerInterface->Connect("127.0.0.1", SERVER_PORT, 0, 0);
 				RakAssert(result == RakNet::CONNECTION_ATTEMPT_STARTED);
 
 				std::cout << "client success" << std::endl;
-				g_networkState = NS_Started;
+				g_networkState = NS_Chat;
 			}
+		}
+		if (g_networkState == NS_Chat) {
+			//Send Handling
+			std::thread ChatHandler(SendChat);
+			ChatHandler.join();
 		}
 	}
 	//std::cout << "press q and then return to exit" << std::endl;
@@ -174,6 +215,7 @@ int main()
 
 	InputHandler.join();
 	PacketHandler.join();
+
 
 	return 0;
 }
