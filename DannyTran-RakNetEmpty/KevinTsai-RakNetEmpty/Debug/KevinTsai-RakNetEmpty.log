@@ -1,9 +1,9 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (KevinTsai-RakNetEmpty.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Main.cpp
-c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(155): warning C4018: '<': signed/unsigned mismatch
-c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(403): warning C4477: 'printf' : format string '%I64u' requires an argument of type 'unsigned __int64', but variadic argument 1 has type 'RakNet::RakNetGUID'
-c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(476): warning C4018: '<': signed/unsigned mismatch
-c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(592): warning C4018: '<': signed/unsigned mismatch
-c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(756): warning C4018: '>=': signed/unsigned mismatch
-c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(778): warning C4018: '<': signed/unsigned mismatch
+c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(159): warning C4018: '<': signed/unsigned mismatch
+c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(407): warning C4477: 'printf' : format string '%I64u' requires an argument of type 'unsigned __int64', but variadic argument 1 has type 'RakNet::RakNetGUID'
+c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(480): warning C4018: '<': signed/unsigned mismatch
+c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(596): warning C4018: '<': signed/unsigned mismatch
+c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(760): warning C4018: '>=': signed/unsigned mismatch
+c:\users\donny\documents\github\dannytranmultiplayersystems\dannytran-raknetempty\kevintsai-raknetempty\main.cpp(782): warning C4018: '<': signed/unsigned mismatch
   KevinTsai-RakNetEmpty.vcxproj -> C:\Users\donny\Documents\GitHub\DannyTranMultiplayerSystems\DannyTran-RakNetEmpty\Debug\DannyTran-RakNetEmpty.exe
