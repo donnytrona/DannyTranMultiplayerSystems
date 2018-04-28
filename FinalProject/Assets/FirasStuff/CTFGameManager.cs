@@ -167,6 +167,7 @@ public class CTFGameManager : NetworkBehaviour {
 
             NetworkServer.Destroy(GameObject.FindGameObjectWithTag("Flag"));
 
+            highscore = 0;
             m_gameTime = 60.0f;
             m_gameState = CTF_GameState.GS_WaitingForPlayers;
 
