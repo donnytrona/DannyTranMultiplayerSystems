@@ -1567,8 +1567,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e669f2ea1eabcd4aaf3756562690ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_numPlayers: 2
-  m_gameTime: 6
+  m_numPlayers: 3
+  m_gameTime: 60
   powerUpCount: 0
   gameOver: 0
   m_flag: {fileID: 1162810246722884, guid: 30bfd1cf05496124895275be0b446a61, type: 2}
