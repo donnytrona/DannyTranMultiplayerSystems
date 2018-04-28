@@ -42,11 +42,14 @@ public class Health : NetworkBehaviour {
             {
                 currentHealth = maxHealth;
 
-                flag = GameObject.FindGameObjectWithTag("Flag");
-                NetworkServer.Destroy(flag);
+                if(this.GetComponent<PlayerController>().hasFlag)
+                {
+                    flag = GameObject.FindGameObjectWithTag("Flag");
+                    NetworkServer.Destroy(flag);
 
-                GameObject flagSpawn = Instantiate(m_flag, new Vector3(0, 3, 8.34f), new Quaternion());
-                NetworkServer.Spawn(flagSpawn);
+                    GameObject flagSpawn = Instantiate(m_flag, new Vector3(0, 3, 8.34f), new Quaternion());
+                    NetworkServer.Spawn(flagSpawn);
+                }
 
                 // called on the Server, invoked on the Clients
                 RpcRespawn();

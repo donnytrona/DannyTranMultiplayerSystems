@@ -16,6 +16,9 @@ public class PlayerController : NetworkBehaviour
     [SyncVar]
     public bool hasFlag = false;
 
+    [SyncVar]
+    public bool frozen = false;
+
     private float powerUpTime = 5.0f;
 
     public float m_linearSpeed;
@@ -58,8 +61,14 @@ public class PlayerController : NetworkBehaviour
             m_linearSpeed = 1.0f;
         }
 
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f * m_linearSpeed;
+        var x = 0.0f;
+        var z = 0.0f;
+
+        if (!frozen)
+        {
+            x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
+            z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f * m_linearSpeed;
+        }
 
         transform.Rotate(0, x, 0);
         transform.Translate(0, 0, z);

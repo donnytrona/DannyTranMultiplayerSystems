@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 
 public class Flag : NetworkBehaviour {
 
+    [SyncVar]
+    public bool frozen = false;
+
     public ParticleSystem PE;
 
     private GameObject currentAttached;
@@ -54,7 +57,8 @@ public class Flag : NetworkBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+        if (frozen)
+            CancelInvoke();
     }
 
     void AddToScore()

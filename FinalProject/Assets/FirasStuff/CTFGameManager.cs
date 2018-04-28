@@ -128,7 +128,6 @@ public class CTFGameManager : NetworkBehaviour {
                 {
                     m_gameTime = 0;
                     m_gameState = CTF_GameState.GS_EndGame;
-                    gameOver = true;
                 }
             }
         }
@@ -138,7 +137,7 @@ public class CTFGameManager : NetworkBehaviour {
     {
         if (m_gameState == CTF_GameState.GS_EndGame)
         {
-            Time.timeScale = 0.0f;
+            gameOver = true;
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
@@ -149,14 +148,14 @@ public class CTFGameManager : NetworkBehaviour {
                     playerName = "Winner: Player Number - " + p.GetComponent<PlayerController>().id;
                     highscore = p.GetComponent<Score>().m_score;
                 }
+                p.GetComponent<PlayerController>().frozen = true;
             }
+
+            GameObject flag = GameObject.FindGameObjectWithTag("Flag");
+            flag.GetComponent<Flag>().frozen = true;
 
             t_winner.text = playerName;
             t_highscore.text = "Highest Score = " + highscore;
-        }
-        else
-        {
-            Time.timeScale = 1.0f;
         }
     }
 
@@ -175,6 +174,7 @@ public class CTFGameManager : NetworkBehaviour {
 
             foreach (GameObject p in players)
             {
+                p.GetComponent<PlayerController>().frozen = false;
                 p.GetComponent<Score>().m_score = 0;
                 p.GetComponent<Health>().currentHealth = 100;
                 p.GetComponent<Health>().RpcRespawn();
