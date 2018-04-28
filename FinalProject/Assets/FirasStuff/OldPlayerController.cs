@@ -9,7 +9,7 @@ public class CustomMsgType
 };
 
 
-public class PlayerController : NetworkBehaviour
+public class OldPlayerController : NetworkBehaviour
 {
     public float m_linearSpeed = 5.0f;
     public float m_angularSpeed = 3.0f;

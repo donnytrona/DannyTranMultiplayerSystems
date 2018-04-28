@@ -5,21 +5,22 @@ using UnityEngine.Networking;
 
 public class Flag : NetworkBehaviour {
 
-	enum State
-	{
-		Available,
-		Possessed
-	};
+    public ParticleSystem PE;
 
-	[SyncVar]
-	State m_state;
+    private GameObject currentAttached;
 
-	// Use this for initialization
-	void Start () {
-        //Vector3 spawnPoint;
-        //ObjectSpawner.RandomPoint(this.transform.position, 10.0f, out spawnPoint);
-        //this.transform.position = spawnPoint;
-        //GetComponent<MeshRenderer> ().enabled = false;
+    enum State
+    {
+        Available,
+        Possessed
+    };
+
+    [SyncVar]
+    State m_state;
+
+    // Use this for initialization
+    void Start()
+    {
         m_state = State.Available;
 
     }
@@ -32,6 +33,7 @@ public class Flag : NetworkBehaviour {
 
     public void AttachFlagToGameObject(GameObject obj)
     {
+        PE.Stop();
         this.transform.parent = obj.transform;
     }
 
@@ -43,12 +45,19 @@ public class Flag : NetworkBehaviour {
         }
 
         m_state = State.Possessed;
+        InvokeRepeating("AddToScore", 0, 1);
+        currentAttached = other.gameObject;
         AttachFlagToGameObject(other.gameObject);
         RpcPickUpFlag(other.gameObject);
     }
 
     // Update is called once per frame
     void Update () {
-		
-	}
+
+    }
+
+    void AddToScore()
+    {
+        currentAttached.GetComponent<Score>().m_score = currentAttached.GetComponent<Score>().m_score + 1;
+    }
 }
