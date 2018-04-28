@@ -1645,10 +1645,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e669f2ea1eabcd4aaf3756562690ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_numPlayers: 4
+  m_numPlayers: 3
   m_gameTime: 60
+  powerUpCount: 0
   gameOver: 0
   m_flag: {fileID: 1162810246722884, guid: 30bfd1cf05496124895275be0b446a61, type: 2}
+  powerUpPrefab: {fileID: 1836258888415668, guid: 3e150c60f03f20343afb8ae2a1aab589,
+    type: 2}
   t_gameTime: {fileID: 101128823}
   GameOver: {fileID: 1536395619}
   t_winner: {fileID: 1225770776}
@@ -1804,6 +1807,7 @@ MonoBehaviour:
   - {fileID: 1017964048210556, guid: 90487eda86ee32c4ca80c618955bed30, type: 2}
   - {fileID: 1113135016622036, guid: a91f79d699567734580e214b7baf4d12, type: 2}
   - {fileID: 1162810246722884, guid: 30bfd1cf05496124895275be0b446a61, type: 2}
+  - {fileID: 1836258888415668, guid: 3e150c60f03f20343afb8ae2a1aab589, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:

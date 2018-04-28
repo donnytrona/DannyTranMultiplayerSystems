@@ -46,6 +46,7 @@ public class Flag : NetworkBehaviour {
 
         m_state = State.Possessed;
         InvokeRepeating("AddToScore", 0, 1);
+        other.gameObject.GetComponent<PlayerController>().hasFlag = true;
         currentAttached = other.gameObject;
         AttachFlagToGameObject(other.gameObject);
         RpcPickUpFlag(other.gameObject);

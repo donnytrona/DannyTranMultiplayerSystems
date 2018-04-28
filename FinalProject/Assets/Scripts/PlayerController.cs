@@ -10,12 +10,24 @@ public class PlayerController : NetworkBehaviour
     [SyncVar]
     public int id;
 
+    [SyncVar]
+    public bool isPoweredUp = false;
+
+    [SyncVar]
+    public bool hasFlag = false;
+
+    private float powerUpTime = 5.0f;
+
+    public float m_linearSpeed;
+
     NetworkIdentity m_Identity;
 
     public Text playerNumber;
 
     void Start()
     {
+        m_linearSpeed = 0.5f;
+
         if (!isServer)
         {
             return;
@@ -35,8 +47,19 @@ public class PlayerController : NetworkBehaviour
         playerNumber = GameObject.FindGameObjectWithTag("Player Number").GetComponent<Text>();
         playerNumber.text = "Player Number - " + id;
 
+        if(isPoweredUp && powerUpTime >= 0)
+        {
+            powerUpTime -= Time.deltaTime;
+        }
+        else
+        {
+            isPoweredUp = false;
+            powerUpTime = 5.0f;
+            m_linearSpeed = 1.0f;
+        }
+
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
+        var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f * m_linearSpeed;
 
         transform.Rotate(0, x, 0);
         transform.Translate(0, 0, z);

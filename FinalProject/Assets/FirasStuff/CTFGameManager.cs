@@ -11,9 +11,13 @@ public class CTFGameManager : NetworkBehaviour {
     public float m_gameTime = 60.0f;
 
     [SyncVar]
+    public float powerUpCount = 0.0f;
+
+    [SyncVar]
     public bool gameOver = false;
 
     public GameObject m_flag = null;
+    public GameObject powerUpPrefab = null;
 
     public Text t_gameTime;
     public GameObject GameOver;
@@ -70,6 +74,30 @@ public class CTFGameManager : NetworkBehaviour {
         UpdateEndGame();
     }
 
+    public void SpawnPowerUp()
+    {
+        if(isServer)
+        {
+            if (powerUpCount <= 1)
+            {
+                powerUpCount++;
+
+                var spawnPosition = new Vector3(
+                    Random.Range(-18.0f, 18.0f),
+                    0.5f,
+                    Random.Range(-6.0f, 18.0f));
+
+                var spawnRotation = Quaternion.Euler(
+                    0.0f,
+                    0.0f,
+                    0.0f);
+
+                var powerUp = (GameObject)Instantiate(powerUpPrefab, spawnPosition, spawnRotation);
+                NetworkServer.Spawn(powerUp);
+            }
+        }
+    }
+
     public void UpdateGameState()
     {
         if (m_gameState == CTF_GameState.GS_Ready)
@@ -77,6 +105,8 @@ public class CTFGameManager : NetworkBehaviour {
             //call whatever needs to be called
             if (isServer)
             {
+                SpawnPowerUp();
+
                 SpawnFlag();
                 //change state to ingame
                 m_gameState = CTF_GameState.GS_InGame;
@@ -90,6 +120,8 @@ public class CTFGameManager : NetworkBehaviour {
         {
             if (isServer)
             {
+                SpawnPowerUp();
+
                 m_gameTime -= Time.deltaTime;
 
                 if (m_gameTime <= 0)
@@ -144,6 +176,8 @@ public class CTFGameManager : NetworkBehaviour {
             foreach (GameObject p in players)
             {
                 p.GetComponent<Score>().m_score = 0;
+                p.GetComponent<Health>().currentHealth = 100;
+                p.GetComponent<Health>().RpcRespawn();
             }
         }
     }

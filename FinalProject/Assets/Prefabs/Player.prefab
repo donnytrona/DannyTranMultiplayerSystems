@@ -412,6 +412,12 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1017964048210556, guid: 90487eda86ee32c4ca80c618955bed30,
     type: 2}
   bulletSpawn: {fileID: 4007319385591714}
+  id: 0
+  isPoweredUp: 0
+  hasFlag: 0
+  fireRate: 4
+  m_linearSpeed: 0
+  playerNumber: {fileID: 0}
 --- !u!114 &114134089593180150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -524,8 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 774020812b607294787ff025931ebd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  scoreLabel: {fileID: 0}
+  m_score: 0
 --- !u!114 &114725412247896022
 MonoBehaviour:
   m_ObjectHideFlags: 1

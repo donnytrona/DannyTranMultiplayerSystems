@@ -45,11 +45,13 @@ public class Health : NetworkBehaviour {
                 flag = GameObject.FindGameObjectWithTag("Flag");
                 NetworkServer.Destroy(flag);
 
-                GameObject flagSpawn = Instantiate(m_flag, new Vector3(0, 3, 0), new Quaternion());
+                GameObject flagSpawn = Instantiate(m_flag, new Vector3(0, 3, 8.34f), new Quaternion());
                 NetworkServer.Spawn(flagSpawn);
 
                 // called on the Server, invoked on the Clients
                 RpcRespawn();
+
+                this.GetComponent<PlayerController>().hasFlag = false;
             }
         }
     }
@@ -60,7 +62,7 @@ public class Health : NetworkBehaviour {
     }
 
     [ClientRpc]
-    void RpcRespawn()
+    public void RpcRespawn()
     {
         if (isLocalPlayer)
         {
@@ -70,7 +72,7 @@ public class Health : NetworkBehaviour {
             // If there is a spawn point array and the array is not empty, pick one at random
             if (spawnPoints != null && spawnPoints.Length > 0)
             {
-                spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+                spawnPoint = spawnPoints[GetComponent<PlayerController>().id].transform.position;
             }
 
             // Set the player’s position to the chosen spawn point
